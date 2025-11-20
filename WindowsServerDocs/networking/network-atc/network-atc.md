@@ -4,7 +4,7 @@ description: Learn how to deploy host networking with Network ATC for Windows Se
 #customer intent: As a network administrator, I want to deploy host networking using Network ATC so that I can manage compute, storage, and management networks across all cluster nodes using the same adapters.
 author: robinharwood
 ms.topic: how-to
-ms.date: 07/18/2025
+ms.date: 11/20/2025
 ms.author: roharwoo
 ms.custom:
   - ai-gen-docs-bap
@@ -233,23 +233,6 @@ Scenario 1: An adapter is bound to an existing vSwitch that conflicts with the n
 Scenario 2: An adapter is bound to the component, but not necessarily a vSwitch.
 
 **Solution:** Disable the vms_pp component (unbind the adapter from the vSwitch) then run Set-NetIntentRetryState.
-
-### Error: ConflictingTrafficClass
-
-:::image type="content" source="../media/network-atc/error-conflictingtrafficclass.png" alt-text="Screenshot of Conflicting Traffic Class error."  lightbox="../media/network-atc/error-conflictingtrafficclass.png":::
-
-This issue occurs because a traffic class is already configured. Network ATC is attempting to deploy traffic classes that conflict with this preconfigured traffic class. For example, you might have deployed a traffic class called SMB when Network ATC tries to deploy a similar traffic class with a different name.
-
-**Solution:**
-
-Clear the existing DCB configuration on the system then run Set-NetIntentRetryState
-
-```powershell
-
-Get-NetQosTrafficClass | Remove-NetQosTrafficClass
-Get-NetQosPolicy | Remove-NetQosPolicy -Confirm:$false
-Get-NetQosFlowControl | Disable-NetQosFlowControl
-```
 
 ### Error: Network Symmetry Check Failure
 
